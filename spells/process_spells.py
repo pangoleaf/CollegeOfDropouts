@@ -17,6 +17,12 @@ def ins(iter, pos, add="", rem=0):
     return iter[:pos] + add + iter[pos + rem :]
 
 
+def gen_cands(word, *args):
+    for func in args:
+        for cand in func(word):
+            yield (cand)
+
+
 def addeds(w):
     return (ins(w, i, a) for a in abc for i in range(len(w) + 1))
 
@@ -35,21 +41,16 @@ def swappeds(w):
     )
 
 
-def gen_cands(word, *args):
-    for func in args:
-        for cand in func(word):
-            yield (cand)
-
-
 def valid(cand, word):
+    lcand, lword = cand.lower(), word.lower()
     return (
         False
-        if (cand == word)
-        or (cand == word + "s")
-        or (word == cand + "s")
-        or (word[-1] == "e" and cand[-2:] == "ed")
-        or ((word, cand) in filtered_swaps)
-        or (cand not in words)
+        if (lcand == lword)
+        or (lcand == lword + "s")
+        or (lword == lcand + "s")
+        or (lword[-1] == "e" and lcand[-2:] == "ed")
+        or ((lword, lcand) in filtered_swaps)
+        or (lcand not in words)
         else True
     )
 
@@ -58,15 +59,25 @@ def formatted(cand, i, spell):
     return " ".join(ins(spell.split(" "), i, [cand.capitalize()], 1))
 
 
+def gen_misspells(spells):
+    for index, word, spell in spell_words(spells):
+        for cand in gen_cands(word, addeds, removeds, replaceds, swappeds):
+            if valid(cand, word):
+                yield f'  "{formatted(cand, index, spell)}",\n'
+
+
+def write_js_arr(name, items, file):
+    file.write(f"const {name} = [\n")
+    for item in items:
+        file.write(item)
+    file.write("]")
+
+
 output_file = "misspells.js"
 temp_file = "tmp_" + output_file
 
 if __name__ == "__main__":
     with open(temp_file, "w") as f:
-        f.write("const misspells = [\n")
-        for index, word, spell in spell_words(spells):
-            for cand in gen_cands(word, addeds, removeds, replaceds, swappeds):
-                if valid(cand.lower(), word.lower()):
-                    f.write('  "' + formatted(cand, index, spell) + '",\n')
-        f.write("]")
-        os.replace(temp_file, output_file)
+        write_js_arr("misspells", (ms for ms in gen_misspells(spells)), f)
+
+    os.replace(temp_file, output_file)
