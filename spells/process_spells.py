@@ -70,7 +70,7 @@ def write_js_arr(name, items, file):
     file.write(f"const {name} = [\n")
     for item in items:
         file.write(item)
-    file.write("]")
+    file.write(f"];\nexport default {name};")
 
 
 output_file = "misspells.js"

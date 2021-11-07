@@ -1,5 +1,7 @@
 'use strict';
 
+import misspells from './spells/misspells.js';
+
 const cast = document.getElementById('cast');
 const misstainer = document.getElementById('misstainer');
 const misspell = document.getElementById('misspell');
