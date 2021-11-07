@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Schoolbell&family=Uncial+Antiqua&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+  color: floralwhite;
+  height: 100vh;
+  padding: 0;
+  background: url("img/dungeonwall.jpg");
+  transition: background-color 0.5s ease;
+}
+
+#main {
+  height: 100%;
+}
+
+#castainer {
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+}
+
+#cast {
+  width: 75%;
+  max-width: 60vh;
+  min-width: fit-content;
+  padding: 10px 10px;
+  background: url("img/woodtexture.jpg");
+  border: floralwhite 2px solid;
+  outline: none;
+  border-radius: 12px;
+  font-family: 'Uncial Antiqua', cursive;
+  color: floralwhite;
+  font-size: 32px;
+  text-align: center;
+  display: inline-block;
+}
+
+#misstainer {
+  display: flex;
+  height: 80%;
+  padding-bottom: 3vh;
+  align-items: center;
+  justify-content: center;
+  background: url("img/scroll.png") no-repeat center center;
+  background-size: contain;
+  font-family: 'Schoolbell', cursive;
+  font-weight: bold;
+  font-size: 6vh;
+  color: #761313;
+  transition: opacity 0.2s linear;
+}
+
+#misspell {
+  max-width: 50vh;
+  transition: opacity 0.2s linear;
+}
+
+.hidden {
+  opacity: 0;
+}
